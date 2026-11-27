@@ -1,0 +1,451 @@
+{% assign shell_selector = '.nw-hero.section-' | append: section.id %}
+{% render 'nw-section-shell', selector: shell_selector %}
+
+{{ 'nw-hero.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'nw-counter.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign heading_tag = 'h2'
+  if section.settings.primary_page_heading
+    assign heading_tag = 'h1'
+  endif
+
+  assign desktop_img = section.settings.hero_img_desktop
+  assign mobile_img = section.settings.hero_img_mobile | default: desktop_img
+-%}
+
+<div
+  class="nw-hero section-{{ section.id }}"
+  style="--nw-hero-pb-dt: {{ section.settings.padding_bottom_desktop | default: 60 }}px; --nw-hero-pb-mb: {{ section.settings.padding_bottom_mobile | default: 40 }}px;"
+>
+  <div class="page-width nw-hero__container">
+    <div class="nw-hero__content">
+      <div
+        class="nw-hero__header nw-hero__header--{{ section.settings.header_alignment | default: 'left' }}"
+      >
+        {%- if section.settings.hero_heading != blank -%}
+          <{{ heading_tag }}
+            class="nw-hero__heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}
+            style="color: {{ section.settings.heading_color | default: '#000000' }};{% if settings.animations_reveal_on_scroll %} --animation-order: 1;{% endif %}"
+          >
+            {{ section.settings.hero_heading }}
+          </{{ heading_tag }}>
+        {%- endif -%}
+
+        {%- if section.settings.hero_desc != blank -%}
+          <div
+            class="nw-hero__desc rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}
+            style="color: {{ section.settings.desc_color | default: '#000000' }};{% if settings.animations_reveal_on_scroll %} --animation-order: 2;{% endif %}"
+          >
+            {{ section.settings.hero_desc }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.button_text != blank -%}
+        <div
+          class="nw-hero__cta{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: 3;"
+          {% endif %}
+        >
+          {% render 'nw-button',
+            text: section.settings.button_text,
+            link: section.settings.button_link,
+            type: section.settings.button_type,
+            align: section.settings.button_alignment
+          %}
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="nw-hero__counters">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'nw-counter' -%}
+              <div
+                class="nw-hero__counter-item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index | plus: 3 }};"
+                {% endif %}
+              >
+                <div
+                  class="nw-hero__counter-value"
+                  style="color: {{ block.settings.number_color | default: '#000000' }};"
+                >
+                  <span
+                    class="nw-counter-number"
+                    data-target="{{ block.settings.number | default: 0 }}"
+                  >
+                    {{- block.settings.number | default: 0 -}}
+                  </span>
+                  {%- if block.settings.show_number_Suffix and block.settings.number_Suffix != blank -%}
+                    <span class="nw-hero__counter-suffix">{{ block.settings.number_Suffix | escape }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.title != blank -%}
+                  <div
+                    class="nw-hero__counter-title"
+                    style="color: {{ block.settings.title_color | default: '#000000' }};"
+                  >
+                    {{ block.settings.title }}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="nw-hero__media{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      <picture>
+        {%- if mobile_img != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_img | image_url: width: 900 }}"
+          >
+        {%- else -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ 'hero-placeholder-img.webp' | asset_url }}"
+          >
+        {%- endif -%}
+
+        {%- if desktop_img != blank -%}
+          <img
+            src="{{ desktop_img | image_url: width: 1400 }}"
+            alt="{{ desktop_img.alt | default: section.settings.hero_heading | strip_html | escape }}"
+            class="nw-hero__img"
+            width="{{ desktop_img.width }}"
+            height="{{ desktop_img.height }}"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'hero-placeholder-img.webp' | asset_url }}"
+            alt="{{ section.settings.hero_heading | strip_html | escape }}"
+            class="nw-hero__img"
+            width="720"
+            height="663"
+            loading="eager"
+            fetchpriority="high"
+          >
+        {%- endif -%}
+      </picture>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{%  schema  %} 
+{
+    "name": "NW Hero",
+    "settings": [
+        {
+            "type": "header",
+            "content": "HEADER"
+        },
+        {
+            "type": "inline_richtext",
+            "default": "FIND CLOTHES THAT MATCHES YOUR STYLE",
+            "id": "hero_heading",
+            "label": "Heading"
+        },
+         {
+      "type": "checkbox",
+      "id": "primary_page_heading",
+      "label": "Set As Primary Page Heading",
+      "default": true,
+      "info": "Use <h1> tag. One per page recommended."
+    },
+        {
+            "type": "color",
+            "default": "#000000",
+            "id": "heading_color",
+            "label": "Color"
+        },
+        {
+            "type": "richtext",
+            "default": "<p>Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>",
+            "id": "hero_desc",
+            "label": "Description"
+        },
+        {
+            "type": "color",
+            "alpha": true,
+            "default": "#000000",
+            "id": "desc_color",
+            "label": "Color"
+        },
+      {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Text Alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+   {
+    "type": "header",
+    "content": "BUTTON"
+   },
+   {
+      "type": "header",
+      "content": "BUTTON"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "SHOP THE SUMMER DROP"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "button_type",
+      "label": "Button Type",
+      "default": "primary",
+      "options": [
+        {
+          "label": "Primary",
+          "value": "primary"
+        },
+        {
+          "label": "Secondary",
+          "value": "secondary"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+        "type": "header",
+        "content": "HERO IMAGE"
+    },
+    {
+        "type": "image_picker",
+        "id": "hero_img_desktop",
+        "label": "Image(Desktop)"
+    },
+    {
+        "type": "image_picker",
+        "id": "hero_img_mobile",
+        "label": "Image(Mobile)"
+    },{
+  "type": "header",
+  "content": "BACKGROUND"
+},
+{
+  "type": "select",
+  "id": "bg_type",
+  "label": "Background Type",
+  "default": "color",
+  "options": [
+    {
+      "value": "none",
+      "label": "None (Transparent)"
+    },
+    {
+      "value": "color",
+      "label": "Solid Color"
+    },
+    {
+      "value": "gradient",
+      "label": "Gradient"
+    },
+    {
+      "value": "image",
+      "label": "Image"
+    }
+  ]
+},
+{
+  "type": "color",
+  "id": "bg_color",
+  "label": "Background Color",
+  "default": "#ffffff",
+  "visible_if": "{{ section.settings.bg_type == 'color' }}"
+},
+{
+  "type": "color_background",
+  "id": "bg_gradient",
+  "label": "Background Gradient",
+  "visible_if": "{{ section.settings.bg_type == 'gradient' }}"
+},
+{
+  "type": "image_picker",
+  "id": "bg_image",
+  "label": "Desktop Background Image",
+  "visible_if": "{{ section.settings.bg_type == 'image' }}"
+},
+{
+  "type": "image_picker",
+  "id": "bg_image_mobile",
+  "label": "Mobile Background Image",
+  "visible_if": "{{ section.settings.bg_type == 'image' }}"
+},
+{
+      "type": "header",
+      "content": "SECTION SPACING"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+    ],
+    "tag": "section",
+    "blocks": [
+        {
+            "type": "nw-counter",
+            "limit": 3,
+            "name": "Counter",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "COUNTER CONTENT"
+                },
+                {
+                    "type": "number",
+                    "id": "number",
+                    "default": 100,
+                    "label": "Number",
+                    "min": 50,
+                    "max": 50000
+                },
+                 
+        {
+            "type": "text",
+            "default": "+",
+            "id": "number_Suffix",
+            "label": "Suffix"
+        },
+
+        {
+            "type": "color",
+            "default": "#000000",
+            "id": "number_color",
+            "label": "Color"
+        },
+        {
+        "type": "checkbox",
+        "default": true,
+        "id": "show_number_Suffix",
+        "label": "Show/Hide"
+        },
+        {
+            "type": "inline_richtext",
+            "id": "title",
+            "default": "Happy Customers",
+            "label": "Counter Title"
+        },
+        {
+            "type": "color",
+            "default": "#000000",
+            "id": "title_color",
+            "label": "Color",
+            "alpha": true
+        }
+            ]
+        }
+    ],
+    "limit": 1,
+    "presets": [
+        {
+            "name": "NW Hero",
+            "category": "NW SECTION",
+            "blocks": [
+                {
+                    "type": "nw-counter"
+                },
+                {
+                    "type": "nw-counter"
+                },
+                {
+                    "type": "nw-counter"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{% comment %}
+  Outputs padding and background CSS from current section settings.
+  @param {string} selector - CSS selector for section root (e.g. '.my-section.section-' | append: section.id)
+  @param {string} [default_bg] - Fallback background color. Default: transparent
+  @param {string} [default_bg_type] - Fallback background type ('none' | 'color' | 'gradient' | 'image'). Default: 'none'
+  @param {string} [extra] - Extra CSS declarations inside the selector
+{% endcomment %}
+
+{%- liquid
+  assign shell_bg = default_bg | default: 'transparent'
+  assign pad_top_dt = section.settings.padding_top_desktop | default: 80
+  assign pad_bot_dt = section.settings.padding_bottom_desktop | default: 80
+  assign pad_top_mb = section.settings.padding_top_mobile | default: 48
+  assign pad_bot_mb = section.settings.padding_bottom_mobile | default: 48
+  assign fallback_type = default_bg_type | default: 'none'
+  assign bg_type = section.settings.bg_type | default: fallback_type
+-%}
+
+{%- if selector != blank -%}
+  <style>
+    {{ selector }} {
+      position: relative;
+      padding-top: {{ pad_top_dt }}px;
+      padding-bottom: {{ pad_bot_dt }}px;
+
+      {%- if bg_type == 'none' -%}
+        background: transparent;
+      {%- elsif bg_type == 'color' -%}
+        background-color: {{ section.settings.bg_color | default: shell_bg }};
+      {%- elsif bg_type == 'gradient' and section.settings.bg_gradient != blank -%}
+        background: {{ section.settings.bg_gradient }};
+      {%- elsif bg_type == 'image' -%}
+        background-color: {{ section.settings.bg_color | default: shell_bg }};
+        {%- if section.settings.bg_image != blank -%}
+          background-image: url('{{ section.settings.bg_image | image_url: width: 2800 }}');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        {%- endif -%}
+      {%- else -%}
+        background-color: {{ section.settings.bg_color | default: shell_bg }};
+      {%- endif -%}
+
+      {%- if extra != blank -%}
+        {{ extra }}
+      {%- endif -%}
+    }
+
+    @media screen and (max-width: 749px) {
+      {{ selector }} {
+        padding-top: {{ pad_top_mb }}px;
+        padding-bottom: {{ pad_bot_mb }}px;
+
+        {%- if bg_type == 'image' and section.settings.bg_image_mobile != blank -%}
+          background-image: url('{{ section.settings.bg_image_mobile | image_url: width: 1200 }}');
+        {%- endif -%}
+      }
+    }
+  </style>
+{%- endif -%}

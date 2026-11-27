@@ -1,0 +1,271 @@
+.nw-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.nw-hero__container {
+  position: relative;
+}
+
+.nw-hero__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 596px;
+}
+
+.nw-hero__header--left {
+  text-align: left;
+}
+
+.nw-hero__header--center {
+  text-align: center;
+}
+
+.nw-hero__header--right {
+  text-align: right;
+}
+
+.nw-hero__heading {
+  margin: 0;
+  font-family: var(--nw-font-heading);
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.nw-hero__desc {
+  margin-top: 20px;
+  max-width: 545px;
+  font-family: var(--nw-font-body);
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 0.6;
+}
+
+.nw-hero__header--center .nw-hero__desc {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nw-hero__header--right .nw-hero__desc {
+  margin-left: auto;
+}
+
+.nw-hero__desc p {
+  margin: 0;
+}
+
+.nw-hero__cta {
+  margin-top: 24px;
+}
+
+.nw-hero__cta .nw-btn {
+  padding: 15px 54px;
+  min-height: 52px;
+  border-radius: 62px;
+}
+
+.nw-hero__counters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 16px;
+  margin-top: 24px;
+}
+
+.nw-hero__counter-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.nw-hero__counter-item:first-child {
+  padding-left: 0;
+}
+
+.nw-hero__counter-item + .nw-hero__counter-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nw-hero__counter-value {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--nw-font-body);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.nw-hero__counter-title {
+  margin-top: 2px;
+  font-family: var(--nw-font-body);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* Hero image: absolute and anchored to bottom corner */
+.nw-hero__media {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.nw-hero__media picture {
+  display: block;
+  line-height: 0;
+}
+
+.nw-hero__img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: bottom right;
+}
+
+/* Mobile layout (matches 2nd reference image) */
+@media screen and (max-width: 749px) {
+  .nw-hero__content {
+    max-width: 100%;
+    padding-bottom: clamp(320px, 95vw, 440px);
+  }
+
+  .nw-hero__cta .nw-btn {
+    width: 100%;
+  }
+
+  .nw-hero__counters {
+    margin-top: 20px;
+  }
+
+  .nw-hero__counter-item {
+    flex: 0 0 auto;
+    padding: 0 20px;
+  }
+
+  .nw-hero__counter-item:nth-child(3) {
+    flex-basis: 100%;
+    align-items: center;
+    padding: 0;
+  }
+
+  .nw-hero__counter-item:nth-child(3)::before {
+    display: none;
+  }
+
+  .nw-hero__media {
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * var(--nw-hero-pb-mb, 40px));
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .nw-hero__img {
+    width: 100%;
+    max-width: 440px;
+    max-height: 440px;
+    object-position: bottom center;
+  }
+}
+
+/* Tablet & Desktop */
+@media screen and (min-width: 750px) {
+  .nw-hero__content {
+    width: 55%;
+  }
+
+  .nw-hero__heading {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  .nw-hero__desc {
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .nw-hero__cta {
+    margin-top: 32px;
+  }
+
+  .nw-hero__counters {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-top: 48px;
+  }
+
+  .nw-hero__counter-item {
+    padding: 0 24px;
+  }
+
+  .nw-hero__counter-value {
+    font-size: 32px;
+  }
+
+  .nw-hero__counter-title {
+    font-size: 14px;
+  }
+
+  .nw-hero__media {
+    right: 0;
+    bottom: calc(-1 * var(--nw-hero-pb-dt, 60px));
+    width: 48%;
+    max-width: 680px;
+    height: calc(100% + var(--nw-hero-pb-dt, 60px));
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .nw-hero__media picture {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .nw-hero__img {
+    max-height: 100%;
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .nw-hero__heading {
+    font-size: 64px;
+    line-height: 64px;
+  }
+
+  .nw-hero__counter-item {
+    padding: 0 32px;
+  }
+
+  .nw-hero__counter-value {
+    font-size: 40px;
+  }
+
+  .nw-hero__counter-title {
+    font-size: 16px;
+  }
+}
