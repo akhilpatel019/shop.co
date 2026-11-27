@@ -1,0 +1,230 @@
+{%  style  %} 
+
+/* colors */
+
+:root{
+    --nw-white-color: #FFFFFF;
+    --nw-black-color: #000000;
+    --nw-bg-color: #F0EFED;
+
+
+      /* ===========================
+     Reusable Color Variables
+  =========================== */
+
+    --nw-white: var(--nw-white-color);
+    --nw-black: var(--nw-black-color);
+    --nw-bg: var(--nw-bg-color);
+
+
+    /* ===========================
+     font-families
+  =========================== */
+--nw-font-heading: 'Integral CF', sans-serif;
+--nw-font-body: 'Satoshi', sans-serif;
+--nw-font-body-600-800: 'Satoshi Variable', sans-serif;
+}
+
+
+/* 
+=======================================
+font face 
+==============================================
+*/
+
+  /* Integral CF */
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-regular.otf" | asset_url }}') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-regularoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 400;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-medium.otf" | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-mediumoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-demibold.otf" | asset_url }}') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-demiboldoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 600;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-bold.otf" | asset_url }}') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-boldoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 700;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-extrabold.otf" | asset_url }}') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-extraboldoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 800;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-heavy.otf" | asset_url }}') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Integral CF';
+    src: url('{{ "Fontspring-DEMO-integralcf-heavyoblique.otf" | asset_url }}') format('opentype');
+    font-weight: 900;
+    font-style: oblique;
+    font-display: swap;
+  }
+
+  /* Satoshi */
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Light.woff2" | asset_url }}') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-LightItalic.woff2" | asset_url }}') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Regular.woff2" | asset_url }}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Italic.woff2" | asset_url }}') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Medium.woff2" | asset_url }}') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-MediumItalic.woff2" | asset_url }}') format('woff2');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Bold.woff2" | asset_url }}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-BoldItalic.woff2" | asset_url }}') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-Black.woff2" | asset_url }}') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('{{ "Satoshi-BlackItalic.woff2" | asset_url }}') format('woff2');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Satoshi Variable */
+  @font-face {
+    font-family: 'Satoshi Variable';
+    src: url('{{ "Satoshi-Variable.woff2" | asset_url }}') format('woff2');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi Variable';
+    src: url('{{ "Satoshi-VariableItalic.woff2" | asset_url }}') format('woff2');
+    font-weight: 300 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+{% endstyle %} 

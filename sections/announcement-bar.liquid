@@ -20,6 +20,9 @@
 
 <div
   class="utility-bar color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator and section.blocks.size > 0 %} utility-bar--bottom-border{% elsif section.settings.show_line_separator and section.settings.show_social and social_icons%} utility-bar--bottom-border-social-only{% endif %}{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header-localization{% endif %}"
+  {% if section.settings.bg_color != blank and section.settings.bg_color != 'rgba(0,0,0,0)' %}
+    style="--nw-ab-bg: {{ section.settings.bg_color }};"
+  {% endif %}
 >
   <div class="page-width utility-bar__grid{% if announcement_bar and language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--3-col{% elsif language_country_selector or section.settings.show_social and social_icons %} utility-bar__grid--2-col{% endif %}">
     {%- if section.settings.show_social and social_icons -%}
@@ -30,6 +33,7 @@
         class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
         role="region"
         aria-label="{{ 'sections.header.announcement' | t }}"
+        style="--nw-ab-text-color: {{ section.blocks.first.settings.text_color }}; --nw-ab-font-size: {{ section.blocks.first.settings.font_size }}px;"
         {{ section.blocks.first.shopify_attributes }}
       >
         {%- if section.blocks.first.settings.text != blank -%}
@@ -39,12 +43,12 @@
               class="announcement-bar__link link link--text focus-inset animate-arrow"
             >
           {%- endif -%}
-          <p class="announcement-bar__message h5">
-            <span>{{ section.blocks.first.settings.text | escape }}</span>
+          <div class="announcement-bar__message h5">
+            <div>{{ section.blocks.first.settings.text }}</div>
             {%- if section.blocks.first.settings.link != blank -%}
               {{- 'icon-arrow.svg' | inline_asset_content -}}
             {%- endif -%}
-          </p>
+          </div>
           {%- if section.blocks.first.settings.link != blank -%}
             </a>
           {%- endif -%}
@@ -91,6 +95,7 @@
                   class="announcement-bar__announcement"
                   role="region"
                   aria-label="{{ 'sections.header.announcement' | t }}"
+                  style="--nw-ab-text-color: {{ block.settings.text_color }}; --nw-ab-font-size: {{ block.settings.font_size }}px;"
                 >
                   {%- if block.settings.text != blank -%}
                     {%- if block.settings.link != blank -%}
@@ -99,12 +104,12 @@
                         class="announcement-bar__link link link--text focus-inset animate-arrow"
                       >
                     {%- endif -%}
-                    <p class="announcement-bar__message h5">
-                      <span>{{ block.settings.text | escape }}</span>
+                    <div class="announcement-bar__message h5">
+                      <div>{{ block.settings.text }}</div>
                       {%- if block.settings.link != blank -%}
                         {{- 'icon-arrow.svg' | inline_asset_content -}}
                       {%- endif -%}
-                    </p>
+                    </div>
                     {%- if block.settings.link != blank -%}
                       </a>
                     {%- endif -%}
@@ -192,7 +197,12 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-4"
-    },  
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color"
+    },
     {
       "type": "checkbox",
       "id": "show_line_separator",
@@ -235,10 +245,26 @@
       "name": "t:sections.announcement-bar.blocks.announcement.name",
       "settings": [
         {
-          "type": "text",
+          "type": "richtext",
           "id": "text",
-          "default": "t:sections.announcement-bar.blocks.announcement.settings.text.default",
+          "default": "<p>Welcome to our store</p>",
           "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 14
         },
         {
           "type": "url",
