@@ -1,0 +1,411 @@
+{% assign shell_selector = '.nw-collection.section-' | append: section.id %}
+{% render 'nw-section-shell', selector: shell_selector %}
+
+{{ 'nw-featured-collection.css' | asset_url | stylesheet_tag }}
+
+<div class="nw-collection section-{{ section.id }}">
+  <div class="page-width">
+    {% render 'nw-section-header',
+      heading: section.settings.heading,
+      align: section.settings.header_alignment,
+      heading_color: section.settings.heading_color
+    %}
+
+    {%- liquid
+      assign selected_collection = collections[section.settings.collection]
+      if selected_collection == blank and section.settings.collection != blank
+        assign selected_collection = section.settings.collection
+      endif
+      assign products_limit = section.settings.product_count | default: 4
+    -%}
+
+    <div class="nw-collection__grid">
+      {%- if selected_collection != blank and selected_collection.products_count > 0 -%}
+        {%- for product in selected_collection.products limit: products_limit -%}
+          {%- liquid
+            assign rating_mf = product.metafields.custom.product_rating
+            assign rating_val = 0
+            assign rating_max = 5
+            assign has_rating = false
+
+            if rating_mf != blank
+              if rating_mf.value.rating != blank
+                assign rating_val = rating_mf.value.rating | plus: 0.0
+                assign rating_max = rating_mf.value.scale_max | default: 5 | round
+                assign has_rating = true
+              elsif rating_mf.value != blank
+                assign rating_val = rating_mf.value | plus: 0.0
+                assign has_rating = true
+              endif
+            endif
+
+            assign has_discount = false
+            assign discount_pct = 0
+            if product.compare_at_price > product.price
+              assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+              if discount_pct > 0
+                assign has_discount = true
+              endif
+            endif
+          -%}
+
+          <article
+            class="nw-product-card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            <a href="{{ product.url }}" class="nw-product-card__link">
+              <div class="nw-product-card__media">
+                {%- if product.featured_media != blank -%}
+                  <img
+                    src="{{ product.featured_media | image_url: width: 800 }}"
+                    alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                    class="nw-product-card__img"
+                    width="{{ product.featured_media.width }}"
+                    height="{{ product.featured_media.height }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'nw-product-card__placeholder' }}
+                {%- endif -%}
+              </div>
+
+              <div class="nw-product-card__info">
+                <h3 class="nw-product-card__title">{{ product.title | escape }}</h3>
+
+                {%- if has_rating -%}
+                  <div class="nw-product-card__rating" aria-label="Rated {{ rating_val }} out of {{ rating_max }}">
+                    <div class="nw-product-card__stars" aria-hidden="true">
+                      {%- for i in (1..rating_max) -%}
+                        {%- assign prev_i = i | minus: 1 -%}
+                        {%- if rating_val >= i -%}
+                          <span class="nw-product-card__star">
+                            <span class="nw-product-card__star-fill" style="width: 100%;">
+                              {{- 'nw-star-icon.svg' | inline_asset_content -}}
+                            </span>
+                          </span>
+                        {%- elsif rating_val > prev_i -%}
+                          {%- assign fill_pct = rating_val | minus: prev_i | times: 100 | round -%}
+                          <span class="nw-product-card__star">
+                            <span class="nw-product-card__star-fill" style="width: {{ fill_pct }}%;">
+                              {{- 'nw-star-icon.svg' | inline_asset_content -}}
+                            </span>
+                          </span>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                    <span class="nw-product-card__rating-text">
+                      {{ rating_val }}<span class="nw-product-card__rating-max">/{{ rating_max }}</span>
+                    </span>
+                  </div>
+                {%- endif -%}
+
+                <div class="nw-product-card__price-row">
+                  <span class="nw-product-card__price">
+                    {{ product.price | money_without_trailing_zeros }}
+                  </span>
+                  {%- if product.compare_at_price > product.price -%}
+                    <s class="nw-product-card__compare-price">
+                      {{ product.compare_at_price | money_without_trailing_zeros }}
+                    </s>
+                    {%- if has_discount -%}
+                      <span class="nw-product-card__badge">-{{ discount_pct }}%</span>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..products_limit) -%}
+          {%- assign placeholder_index = i | modulo: 4 | plus: 1 -%}
+          <article class="nw-product-card">
+            <div class="nw-product-card__media">
+              {{ 'product-' | append: placeholder_index | placeholder_svg_tag: 'nw-product-card__placeholder' }}
+            </div>
+            <div class="nw-product-card__info">
+              <h3 class="nw-product-card__title">Product Title {{ i }}</h3>
+              <div class="nw-product-card__rating">
+                <div class="nw-product-card__stars" aria-hidden="true">
+                  {%- for s in (1..4) -%}
+                    <span class="nw-product-card__star">
+                      <span class="nw-product-card__star-fill" style="width: 100%;">
+                        {{- 'nw-star-icon.svg' | inline_asset_content -}}
+                      </span>
+                    </span>
+                  {%- endfor -%}
+                  <span class="nw-product-card__star">
+                    <span class="nw-product-card__star-fill" style="width: 50%;">
+                      {{- 'nw-star-icon.svg' | inline_asset_content -}}
+                    </span>
+                  </span>
+                </div>
+                <span class="nw-product-card__rating-text">
+                  4.5<span class="nw-product-card__rating-max">/5</span>
+                </span>
+              </div>
+              <div class="nw-product-card__price-row">
+                <span class="nw-product-card__price">$120</span>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show-hide-btn and section.settings.button_text != blank -%}
+      <div class="nw-collection__cta">
+        {% render 'nw-button',
+          text: section.settings.button_text,
+          link: section.settings.button_link,
+          type: section.settings.button_type,
+          align: section.settings.button_alignment
+        %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% schema %}
+{
+  "name": "NW Featured Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "COLLECTION"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_count",
+      "default": 4,
+      "label": "Product Count",
+      "max": 6,
+      "min": 1,
+      "step": 1,
+      "visible_if": "{{section.settings.collection != blank}}"
+    },
+    {
+      "type": "header",
+      "content": "SECTION HEADER"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "HEADER COLORS"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color"
+    },
+     {
+        "type": "header",
+        "content": "CTA BUTTON"
+    },
+    {
+        "type": "checkbox",
+        "label": "Show/Hide",
+        "default": false,
+        "id": "show-hide-btn"
+    },
+   {
+  "type": "text",
+  "id": "button_text",
+  "label": "Button Label",
+  "default": "shop all skin care",
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+{
+  "type": "url",
+  "id": "button_link",
+  "label": "Button Link",
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+{
+  "type": "select",
+  "id": "button_type",
+  "label": "Button Type",
+  "default": "primary",
+  "options": [
+    {
+      "label": "Primary",
+      "value": "primary"
+    },
+    {
+      "label": "Secondary",
+      "value": "secondary"
+    }
+  ],
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "visible_if": "{{ section.settings.show-hide-btn == true }}"
+    },
+     {
+      "type": "header",
+      "content": "BACKGROUND"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background Type",
+      "default": "color",
+      "options": [
+        {
+          "value": "none",
+          "label": "None (Transparent)"
+        },
+        {
+          "value": "color",
+          "label": "Solid Color"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ]
+    },
+     {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fff",
+      "visible_if": "{{ section.settings.bg_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "visible_if": "{{ section.settings.bg_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Desktop Background Image",
+      "visible_if": "{{ section.settings.bg_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Mobile Background Image",
+      "visible_if": "{{ section.settings.bg_type == 'image' }}"
+    },
+      {
+      "type": "header",
+      "content": "SECTION SPACING"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 128,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 128,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [],
+  "tag": "section",
+  "presets": [
+    {
+      "name": "NW Featured Collection",
+      "category": "NW SECTIONS"
+    }
+  ]
+}
+{% endschema %}

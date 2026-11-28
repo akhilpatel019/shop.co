@@ -390,3 +390,61 @@ border-bottom-right-radius: 10px;
 }
 
 }
+
+
+
+
+
+
+/* ===========================
+   Reusable Section Header
+=========================== */
+
+.nw-section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+    width: 100%;
+}
+
+.nw-section-header--align-center {
+    align-items: center;
+    text-align: center;
+}
+
+.nw-section-header--align-left {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.nw-section-header--align-right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.nw-section-heading {
+    margin: 0;
+    font-size: 32px;
+    font-family: var(--nw-font-heading);
+    font-weight: bold;
+    line-height: auto;
+    letter-spacing: 0;
+}
+
+/* Tablet & Desktop */
+@media screen and (min-width: 749px) {
+    .nw-section-header {
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+      .nw-section-heading {
+      font-size: 36px;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .nw-section-heading {
+      font-size: 48px;
+    }
+}

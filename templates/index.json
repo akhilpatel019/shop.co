@@ -128,10 +128,61 @@
         "padding_top_mobile": 16,
         "padding_bottom_mobile": 16
       }
+    },
+    "nw_featured_collection_CPA7cx": {
+      "type": "nw-featured-collection",
+      "custom_css": [
+        ".nw-collection:first-of-type {border-bottom: 1px solid #00000012;}"
+      ],
+      "name": "NW Featured Collection",
+      "settings": {
+        "collection": "new-arrivals",
+        "product_count": 4,
+        "heading": "NEW ARRIVALS",
+        "header_alignment": "center",
+        "heading_color": "",
+        "show-hide-btn": true,
+        "button_text": "View All",
+        "button_link": "",
+        "button_type": "secondary",
+        "button_alignment": "center",
+        "bg_type": "color",
+        "bg_color": "#ffffff",
+        "bg_gradient": "",
+        "padding_top_desktop": 72,
+        "padding_bottom_desktop": 64,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "nw_featured_collection_iNhVwk": {
+      "type": "nw-featured-collection",
+      "name": "NW Featured Collection",
+      "settings": {
+        "collection": "top-selling",
+        "product_count": 4,
+        "heading": "top selling",
+        "header_alignment": "center",
+        "heading_color": "",
+        "show-hide-btn": true,
+        "button_text": "View All",
+        "button_link": "",
+        "button_type": "primary",
+        "button_alignment": "center",
+        "bg_type": "color",
+        "bg_color": "#ffffff",
+        "bg_gradient": "",
+        "padding_top_desktop": 72,
+        "padding_bottom_desktop": 64,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
     }
   },
   "order": [
     "nw_hero_A7pNeW",
-    "nw_logo_carousel_BJ8P3x"
+    "nw_logo_carousel_BJ8P3x",
+    "nw_featured_collection_CPA7cx",
+    "nw_featured_collection_iNhVwk"
   ]
 }

@@ -1,0 +1,38 @@
+
+{% comment %}
+  Unified Section Heading Component
+
+  @param {string} [heading] - Heading text (defaults to section.settings.heading or section.settings.title)
+  @param {string} [heading_tag] - 'h1' | 'h2' | 'h3'
+  @param {number} [section_index] - Section index position on page
+  @param {string} [align] - 'center' | 'left' | 'right'
+  @param {string} [heading_color] - Heading text color
+  @param {string} [class] - Additional CSS class for container
+
+  {% render 'nw-section-header' %}
+  
+{% endcomment %}
+
+{%- liquid
+  assign header_align = align | default: section.settings.header_alignment | default: 'center'
+  assign header_heading = heading | default: section.settings.heading | default: section.settings.title
+
+  assign tag = heading_tag
+  if tag == blank
+    if section.index == 1 or section_index == 1 or section.settings.primary_page_heading == true
+      assign tag = 'h1'
+    else
+      assign tag = 'h2'
+    endif
+  endif
+
+  assign heading_clr = heading_color | default: section.settings.heading_color
+-%}
+
+{%- if header_heading != blank -%}
+  <div class="nw-section-header nw-section-header--align-{{ header_align }}{% if class != blank %} {{ class }}{% endif %}">
+    <{{ tag }} class="nw-section-heading"{% if heading_clr != blank and heading_clr != 'rgba(0,0,0,0)' %} style="color: {{ heading_clr }};"{% endif %}>
+      {{ header_heading }}
+    </{{ tag }}>
+  </div>
+{%- endif -%}
