@@ -1,6 +1,7 @@
 .nw-hero {
   position: relative;
   overflow: hidden;
+  min-height: auto;
 }
 
 .nw-hero__container {
@@ -142,10 +143,19 @@
 }
 
 /* Mobile layout (matches 2nd reference image) */
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 767px) {
   .nw-hero__content {
     max-width: 100%;
     padding-bottom: clamp(320px, 95vw, 440px);
+  }
+
+  .nw-hero__header {
+    text-align: center;
+  }
+
+  .nw-hero__desc {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .nw-hero__cta .nw-btn {
@@ -154,6 +164,8 @@
 
   .nw-hero__counters {
     margin-top: 20px;
+    flex-wrap: nowrap;
+    justify-content: center;
   }
 
   .nw-hero__counter-item {
@@ -161,14 +173,20 @@
     padding: 0 20px;
   }
 
-  .nw-hero__counter-item:nth-child(3) {
-    flex-basis: 100%;
-    align-items: center;
-    padding: 0;
-  }
+  @media screen and (max-width: 480px) {
+    .nw-hero__counters {
+      flex-wrap: wrap;
+    }
 
-  .nw-hero__counter-item:nth-child(3)::before {
-    display: none;
+    .nw-hero__counter-item:nth-child(3) {
+      flex-basis: 100%;
+      align-items: center;
+      padding: 0;
+    }
+
+    .nw-hero__counter-item:nth-child(3)::before {
+      display: none;
+    }
   }
 
   .nw-hero__media {
@@ -189,7 +207,19 @@
 }
 
 /* Tablet & Desktop */
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 768px) {
+  .nw-hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .nw-hero__container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
   .nw-hero__content {
     width: 54%;
   }

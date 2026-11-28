@@ -107,12 +107,12 @@
       <picture>
         {%- if mobile_img != blank -%}
           <source
-            media="(max-width: 749px)"
+            media="(max-width: 767px)"
             srcset="{{ mobile_img | image_url: width: 900 }}"
           >
         {%- else -%}
           <source
-            media="(max-width: 749px)"
+            media="(max-width: 767px)"
             srcset="{{ 'hero-placeholder-img.webp' | asset_url }}"
           >
         {%- endif -%}
