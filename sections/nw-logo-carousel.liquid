@@ -1,0 +1,284 @@
+{% assign shell_selector = '.nw-logo-carousel.section-' | append: section.id %}
+{% render 'nw-section-shell', selector: shell_selector %}
+{{ 'nw-logo-carousel.css' | asset_url | stylesheet_tag }}
+{% if section.settings.pause_on_hover %}
+  <style>
+    .nw-logo-carousel.section-{{ section.id }}:hover .nw-logo-carousel__track {
+      animation-play-state: paused;
+    }
+  </style>
+{% endif %}
+
+
+
+
+
+<div
+  class="nw-logo-carousel section-{{ section.id }}"
+  style="
+    --slider-speed: {{ section.settings.slider_speed }}s;
+    --slider-direction: {% if section.settings.slider_direction == 'rtl' %}reverse{% else %}normal{% endif %};
+    --logo-gap-desktop: {{ section.settings.logo_gap_desktop }}px;
+    --logo-gap-mobile: {{ section.settings.logo_gap_mobile }}px;
+  "
+>
+  <div class="nw-logo-carousel__viewport">
+    <div class="nw-logo-carousel__track">
+      {% for block in section.blocks %}
+        <div class="nw-logo-carousel__item" {{ block.shopify_attributes }}>
+          {% if block.settings.slider_logo != blank %}
+            <img
+              src="{{ block.settings.slider_logo | image_url: width: 400 }}"
+              alt="{{ block.settings.slider_logo.alt | default: shop.name | escape }}"
+              width="{{ block.settings.slider_logo.width }}"
+              height="{{ block.settings.slider_logo.height }}"
+              loading="eager"
+            >
+          {% else %}
+            <img
+              src="{{ 'nw-logo-placeholder.png' | asset_url }}"
+              alt="Logo placeholder"
+              width="400"
+              height="200"
+              loading="eager"
+            >
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {% for block in section.blocks %}
+        <div class="nw-logo-carousel__item" aria-hidden="true">
+          {% if block.settings.slider_logo != blank %}
+            <img
+              src="{{ block.settings.slider_logo | image_url: width: 400 }}"
+              alt=""
+              width="{{ block.settings.slider_logo.width }}"
+              height="{{ block.settings.slider_logo.height }}"
+              loading="eager"
+            >
+          {% else %}
+            <img
+              src="{{ 'nw-logo-placeholder.png' | asset_url }}"
+              alt=""
+              width="400"
+              height="200"
+              loading="eager"
+            >
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {% for block in section.blocks %}
+        <div class="nw-logo-carousel__item" aria-hidden="true">
+          {% if block.settings.slider_logo != blank %}
+            <img
+              src="{{ block.settings.slider_logo | image_url: width: 400 }}"
+              alt=""
+              width="{{ block.settings.slider_logo.width }}"
+              height="{{ block.settings.slider_logo.height }}"
+              loading="eager"
+            >
+          {% else %}
+            <img
+              src="{{ 'nw-logo-placeholder.png' | asset_url }}"
+              alt=""
+              width="400"
+              height="200"
+              loading="eager"
+            >
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{%  schema  %} 
+{
+  "name": "NW Logo Carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "SLIDER SETTINGS"
+    },
+    {
+      "type": "select",
+      "id": "slider_direction",
+      "label": "Slider Direction",
+      "default": "ltr",
+      "options": [
+        {
+          "value": "ltr",
+          "label": "Left to Right"
+        },
+        {
+          "value": "rtl",
+          "label": "Right to Left"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Slider Speed",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on Hover",
+      "default": true
+    },
+    {
+  "type": "range",
+  "id": "logo_gap_desktop",
+  "label": "Logo Gap (Desktop)",
+  "min": 10,
+  "max": 60,
+  "step": 2,
+  "unit": "px",
+  "default": 52
+},
+{
+  "type": "range",
+  "id": "logo_gap_mobile",
+  "label": "Logo Gap (Mobile)",
+  "min": 6,
+  "max": 50,
+  "step": 2,
+  "unit": "px",
+  "default": 40
+},
+    {
+      "type": "header",
+      "content": "BACKGROUND"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background Type",
+      "default": "color",
+      "options": [
+        {
+          "value": "none",
+          "label": "None (Transparent)"
+        },
+        {
+          "value": "color",
+          "label": "Solid Color"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.bg_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "visible_if": "{{ section.settings.bg_type == 'gradient' }}"
+    },
+    {
+      "type": "header",
+      "content": "SECTION SPACING"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "nw_logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "label": "Add Logo",
+          "id": "slider_logo",
+          "info": "Recommended: Use transparent PNG images for logos to ensure a clean appearance without unwanted backgrounds."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NW Logo Carousel",
+      "category": "NW SECTIONS",
+      "blocks": [
+        {
+          "type": "nw_logo"
+        },
+        {
+          "type": "nw_logo"
+        },
+        {
+          "type": "nw_logo"
+        },
+        {
+          "type": "nw_logo"
+        },
+        {
+          "type": "nw_logo"
+        },
+        {
+          "type": "nw_logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

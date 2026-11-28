@@ -1,0 +1,65 @@
+/* ==============================
+   NW LOGO CAROUSEL
+============================== */
+
+.nw-logo-carousel {
+  width: 100%;
+  overflow: hidden;
+}
+
+.nw-logo-carousel__viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.nw-logo-carousel__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: var(--logo-gap-mobile);
+  animation: nw-logo-scroll var(--slider-speed) linear infinite;
+  animation-direction: var(--slider-direction);
+  will-change: transform;
+}
+
+.nw-logo-carousel__item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nw-logo-carousel__item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 120px;
+  max-height: 50px;
+  object-fit: contain;
+}
+
+/* Infinite Scroll Animation */
+@keyframes nw-logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==============================
+   TABLET & DESKTOP
+============================== */
+
+@media screen and (min-width: 750px) {
+  .nw-logo-carousel__track {
+    gap: var(--logo-gap-desktop);
+  }
+
+  .nw-logo-carousel__item img {
+    max-width: 180px;
+    max-height: 70px;
+  }
+}
