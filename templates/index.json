@@ -71,9 +71,67 @@
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40
       }
+    },
+    "nw_logo_carousel_BJ8P3x": {
+      "type": "nw-logo-carousel",
+      "blocks": {
+        "nw_logo_KYM8iD": {
+          "type": "nw_logo",
+          "settings": {
+            "slider_logo": "shopify://shop_images/Group.png"
+          }
+        },
+        "nw_logo_QTPMnE": {
+          "type": "nw_logo",
+          "settings": {
+            "slider_logo": "shopify://shop_images/zara-logo-1_1.png"
+          }
+        },
+        "nw_logo_ezBzW3": {
+          "type": "nw_logo",
+          "settings": {
+            "slider_logo": "shopify://shop_images/gucci-logo-1_1.png"
+          }
+        },
+        "nw_logo_rRpPg7": {
+          "type": "nw_logo",
+          "settings": {
+            "slider_logo": "shopify://shop_images/prada-logo-1_1.png"
+          }
+        },
+        "nw_logo_gLXAAB": {
+          "type": "nw_logo",
+          "settings": {
+            "slider_logo": "shopify://shop_images/Group_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "nw_logo_KYM8iD",
+        "nw_logo_QTPMnE",
+        "nw_logo_ezBzW3",
+        "nw_logo_rRpPg7",
+        "nw_logo_gLXAAB"
+      ],
+      "name": "NW Logo Carousel",
+      "settings": {
+        "slider_direction": "rtl",
+        "slider_speed": 20,
+        "pause_on_hover": true,
+        "logo_gap_desktop": 52,
+        "logo_gap_mobile": 40,
+        "bg_type": "color",
+        "bg_color": "#000000",
+        "bg_gradient": "",
+        "padding_top_desktop": 24,
+        "padding_bottom_desktop": 24,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 16
+      }
     }
   },
   "order": [
-    "nw_hero_A7pNeW"
+    "nw_hero_A7pNeW",
+    "nw_logo_carousel_BJ8P3x"
   ]
 }
