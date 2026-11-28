@@ -1,0 +1,125 @@
+.nw-dress-style_container {
+  border-radius: 20px;
+  padding: 40px 24px 28px;
+}
+
+.nw-dress-style .nw-section-header {
+  margin-bottom: 28px;
+}
+
+.nw-dress-style__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.nw-dress-style__card {
+  position: relative;
+  display: block;
+  height: 190px;
+  border-radius: 20px;
+  background-color: var(--nw-white);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--nw-black);
+}
+
+.nw-dress-style__card-title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 16px 24px;
+  font-family: var(--nw-font-body);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--nw-black);
+  text-transform: capitalize;
+}
+
+.nw-dress-style__card-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.nw-dress-style__card-img,
+.nw-dress-style__card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: right center;
+  transition: transform 0.35s ease;
+}
+
+.nw-dress-style__card:hover .nw-dress-style__card-img {
+  transform: scale(1.04);
+}
+
+.nw-dress-style__cta {
+  margin-top: 28px;
+}
+
+.nw-dress-style__cta .nw-btn {
+  padding: 15px 54px;
+  min-height: 52px;
+  border-radius: 62px;
+}
+
+.nw-dress-style__cta .nw-btn-secondary {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (min-width: 1024px) {
+  .nw-dress-style_container {
+    border-radius: 40px;
+    padding: 70px 64px 76px;
+  }
+
+
+  .nw-dress-style .page-width {
+    padding: 0px 0rem ;
+}
+
+  .nw-dress-style .nw-section-header {
+    margin-bottom: 64px;
+  }
+
+  .nw-dress-style__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .nw-dress-style__card {
+    height: 289px;
+  }
+
+  .nw-dress-style__card--col-span-1 {
+    grid-column: span 5;
+  }
+
+  .nw-dress-style__card--col-span-2 {
+    grid-column: span 7;
+  }
+
+  .nw-dress-style__card-title {
+    padding: 25px 36px;
+    font-size: 36px;
+  }
+
+  .nw-dress-style__cta {
+    margin-top: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nw-dress-style__card-img {
+    transition: none;
+  }
+
+  .nw-dress-style__card:hover .nw-dress-style__card-img {
+    transform: none;
+  }
+}

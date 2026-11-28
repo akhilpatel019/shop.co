@@ -177,12 +177,83 @@
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40
       }
+    },
+    "nw_dress_style_LJTw7e": {
+      "type": "nw-dress-style",
+      "blocks": {
+        "nw_collection_box_RcbF7A": {
+          "type": "nw_collection_box",
+          "settings": {
+            "collection": "demo-collection",
+            "is_collection_data": false,
+            "title": "Casual",
+            "collection_image": "shopify://shop_images/image_11.png",
+            "col_span": "col-span-1"
+          }
+        },
+        "nw_collection_box_RFWj7x": {
+          "type": "nw_collection_box",
+          "settings": {
+            "collection": "new-arrivals",
+            "is_collection_data": false,
+            "title": "Formal",
+            "collection_image": "shopify://shop_images/image_13_1.png",
+            "col_span": "col-span-2"
+          }
+        },
+        "nw_collection_box_7hRbPB": {
+          "type": "nw_collection_box",
+          "settings": {
+            "collection": "kids-lessons",
+            "is_collection_data": false,
+            "title": "Party",
+            "collection_image": "shopify://shop_images/image_12_c800b296-63d7-4359-9fcc-73698e77a73d.png",
+            "col_span": "col-span-2"
+          }
+        },
+        "nw_collection_box_R3r7eV": {
+          "type": "nw_collection_box",
+          "settings": {
+            "collection": "test-collection",
+            "is_collection_data": false,
+            "title": "Gym",
+            "collection_image": "shopify://shop_images/image_14.png",
+            "col_span": "col-span-1"
+          }
+        }
+      },
+      "block_order": [
+        "nw_collection_box_RcbF7A",
+        "nw_collection_box_RFWj7x",
+        "nw_collection_box_7hRbPB",
+        "nw_collection_box_R3r7eV"
+      ],
+      "name": "NW Dress Style",
+      "settings": {
+        "heading": "BROWSE BY dress STYLE",
+        "header_alignment": "center",
+        "heading_color": "",
+        "show-hide-btn": true,
+        "button_text": "View More Style",
+        "button_link": "",
+        "button_type": "primary",
+        "button_alignment": "center",
+        "container_bg": "#f0f0f0",
+        "bg_type": "none",
+        "bg_color": "#fff",
+        "bg_gradient": "",
+        "padding_top_desktop": 0,
+        "padding_bottom_desktop": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
     }
   },
   "order": [
     "nw_hero_A7pNeW",
     "nw_logo_carousel_BJ8P3x",
     "nw_featured_collection_CPA7cx",
-    "nw_featured_collection_iNhVwk"
+    "nw_featured_collection_iNhVwk",
+    "nw_dress_style_LJTw7e"
   ]
 }

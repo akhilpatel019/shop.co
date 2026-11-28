@@ -1,0 +1,399 @@
+{% assign shell_selector = '.nw-dress-style.section-' | append: section.id %}
+{% render 'nw-section-shell', selector: shell_selector %}
+
+{{ 'nw-dress-style.css' | asset_url | stylesheet_tag }}
+
+
+<div class="nw-dress-style section-{{ section.id }}">
+  <div class="page-width">
+    <div
+      class="nw-dress-style_container"
+      style="background-color: {{ section.settings.container_bg | default: '#F0F0F0' }};"
+    >
+      {% render 'nw-section-header',
+        heading: section.settings.heading,
+        align: section.settings.header_alignment,
+        heading_color: section.settings.heading_color
+      %}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="nw-dress-style__grid">
+          {%- assign prev_span = '' -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign col = block.settings.collection
+              if block.settings.is_collection_data
+                assign box_title = col.title | default: block.settings.title
+                assign box_image = col.featured_image | default: block.settings.collection_image
+              else
+                assign box_title = block.settings.title | default: col.title
+                assign box_image = block.settings.collection_image | default: col.featured_image
+              endif
+
+              assign span_class = block.settings.col_span | default: 'col-span-1'
+              assign row_pos = forloop.index0 | modulo: 2
+              if row_pos == 0
+                assign prev_span = span_class
+              elsif prev_span == 'col-span-2' and span_class == 'col-span-2'
+                assign span_class = 'col-span-1'
+              endif
+
+              assign placeholder_idx = forloop.index | modulo: 4 | plus: 1
+            -%}
+
+            <a
+              href="{{ col.url | default: '#' }}"
+              class="nw-dress-style__card nw-dress-style__card--{{ span_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              {%- if box_title != blank -%}
+                <h3 class="nw-dress-style__card-title">{{ box_title | escape }}</h3>
+              {%- endif -%}
+
+              <div class="nw-dress-style__card-media">
+                {%- if box_image != blank -%}
+                  <img
+                    src="{{ box_image | image_url: width: 1000 }}"
+                    alt="{{ box_image.alt | default: box_title | escape }}"
+                    class="nw-dress-style__card-img"
+                    width="{{ box_image.width }}"
+                    height="{{ box_image.height }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {{ 'collection-' | append: placeholder_idx | placeholder_svg_tag: 'nw-dress-style__card-placeholder' }}
+                {%- endif -%}
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show-hide-btn and section.settings.button_text != blank -%}
+        <div class="nw-dress-style__cta">
+          {% render 'nw-button',
+            text: section.settings.button_text,
+            link: section.settings.button_link,
+            type: section.settings.button_type,
+            align: section.settings.button_alignment
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+{%  schema  %} 
+{
+    "name": "NW Dress Style",
+    "settings": [
+        {
+      "type": "header",
+      "content": "SECTION HEADER"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Title"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "HEADER COLORS"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color"
+    },
+     {
+        "type": "header",
+        "content": "CTA BUTTON"
+    },
+    {
+        "type": "checkbox",
+        "label": "Show/Hide",
+        "default": false,
+        "id": "show-hide-btn"
+    },
+   {
+  "type": "text",
+  "id": "button_text",
+  "label": "Button Label",
+  "default": "shop all",
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+{
+  "type": "url",
+  "id": "button_link",
+  "label": "Button Link",
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+{
+  "type": "select",
+  "id": "button_type",
+  "label": "Button Type",
+  "default": "primary",
+  "options": [
+    {
+      "label": "Primary",
+      "value": "primary"
+    },
+    {
+      "label": "Secondary",
+      "value": "secondary"
+    }
+  ],
+  "visible_if": "{{ section.settings.show-hide-btn == true }}"
+},
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "visible_if": "{{ section.settings.show-hide-btn == true }}"
+    },
+
+    {
+        "type": "header",
+        "content": "CONTAINER BACKGROUND"
+    },
+    {
+      "type": "color",
+      "alpha": true,
+      "default": "#F0F0F0",
+      "label": "Color",
+      "id": "container_bg"
+    },
+     {
+      "type": "header",
+      "content": "BACKGROUND"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background Type",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None (Transparent)"
+        },
+        {
+          "value": "color",
+          "label": "Solid Color"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        },
+        {
+          "value": "image",
+          "label": "Image"
+        }
+      ]
+    },
+     {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fff",
+      "visible_if": "{{ section.settings.bg_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "visible_if": "{{ section.settings.bg_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Desktop Background Image",
+      "visible_if": "{{ section.settings.bg_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Mobile Background Image",
+      "visible_if": "{{ section.settings.bg_type == 'image' }}"
+    },
+      {
+      "type": "header",
+      "content": "SECTION SPACING"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 128,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 128,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+    ],
+    "blocks": [
+        {
+            "type": "nw_collection_box",
+            "name": "Collection",
+            "limit": 4,
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "COLLECTION"
+                },
+                {
+                    "type": "collection",
+                    "id": "collection",
+                    "label": "Select Collection"
+                },
+                 {
+        "type": "checkbox",
+        "default": true,
+        "id": "is_collection_data",
+        "label": "Use collection Image and Title"
+    },
+                {
+                    "type": "text",
+                    "default": "Title",
+                    "id": "title",
+                    "label": "Collection Title",
+                    "visible_if": "{{block.settings.is_collection_data != true}}"  
+                },
+                {
+                    "type": "image_picker",
+                    "id": "collection_image",
+                    "label": "Collection Image",
+                    "visible_if": "{{block.settings.is_collection_data != true}}"
+                },
+                {
+                    "type": "select",
+                    "default": "col-span-1",
+                    "id": "col_span",
+                    "label": "Col Span",
+                    "info": "Please don't select the same colspan for two row elements. Select the colspan values alternately.",
+                    "options": [
+                        {
+                            "label": "Span 1",
+                            "value": "col-span-1"
+                        },
+                        {
+                            "label": "Span 2",
+                            "value": "col-span-2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "tag": "section",
+    "presets": [
+        {
+            "name": "NW Dress Style",
+           "category": "NW SECTIONS",
+           "blocks": [
+            {
+                "type": "nw_collection_box",
+                "settings": {
+                      "col_span": "col-span-1"
+                }
+            },
+             {
+                "type": "nw_collection_box",
+                 "settings": {
+                      "col_span": "col-span-2"
+                }
+            },
+             {
+                "type": "nw_collection_box",
+                 "settings": {
+                      "col_span": "col-span-2"
+                }
+            },
+             {
+                "type": "nw_collection_box",
+                 "settings": {
+                      "col_span": "col-span-1"
+                }
+            }
+           ]
+        }
+    ]
+}
+{% endschema %}
